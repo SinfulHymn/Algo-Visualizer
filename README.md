@@ -1,12 +1,10 @@
 <div id="top" align="center">
   
   <a href="https://github.com/Kmachappy/Algo-Visualizer">
-    <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
+  <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
   </a>
 
-  <a href="https://algorithm-visuals.netlify.app/">
-    <h3 align="center">Algorithm Visualizer</h3>
-  </a>
+  <a href="https://algorithm-visuals.netlify.app/"><h3 align="center">Algorithm Visualizer</h3></a>
 
   <p align="center">
     <p>An algorithm visualizer created with React, Typescript, and GraphQL.</p>
