@@ -4,7 +4,7 @@
     <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
   </a>
 
-  <a href="https://kmacshop.herokuapp.com/">
+  <a href="https://algorithm-visuals.netlify.app/">
     <h3 align="center">Algorithm Visualizer</h3>
   </a>
 
