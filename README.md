@@ -29,25 +29,44 @@ Description            |  Screenshot
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# KmacShop WireFrame and ERD
 
-Index/Home             |  Category/Filtered
-:-------------------------:|:-------------------------:
-![](https://i.imgur.com/I7mtFwB.png)  |  ![](https://i.imgur.com/4BJ71X9.png)
+# Component Architecture
 
-Product Show             |   Current ERD
-:-------------------------:|:-------------------------:
-![](https://i.imgur.com/253u25t.png)  |  ![](https://i.imgur.com/cMeAhAT.png)
+```mermaid
+flowchart LR
+App-->Index
 
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-# Routes
-
-``` React
 
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+# KmacShop WireFrame and ERD
+
+Index/Home             |  Category/Filtered
+:-------------------------:|:-------------------------:
+![]()  |  ![]()
+
+Product Show             |   Current ERD
+:-------------------------:|:-------------------------:
+![]()  |  ![]()
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
+
+# Routes
+
+``` React
+```
+
+
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+---
 
 # Schema
 
@@ -58,31 +77,34 @@ Schema/Models
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+---
+
 # Functionality
 
-
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+---
 
 # Current State
 
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+---
 
 # Roadmap and future Implementations
 
-```
+```test
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+---
 
 # User Story
 
-
-
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+---
 
 # Technologies used
 
@@ -95,27 +117,35 @@ Schema/Models
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+---
+
 # API's used
- 
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# KmacShop ScreenShots
+---
 
-Index/Home             |  Category/Filtered
+# AlgoVisualizer ScreenShots
+
+Index/Home|Category/Filtered
 :-------------------------:|:-------------------------:
-![](https://i.imgur.com/bGD2s2z.jpg)  |  ![](https://i.imgur.com/haKGQ6J.png)
+![]()  |  ![]()
 
 Product Show             |   Cart Summary
 :-------------------------:|:-------------------------:
-![](https://i.imgur.com/cpQWQEo.png)  |  ![](https://i.imgur.com/PajTdjV.png)
+![]()  |  ![]()
+
 User Profile           |  Checkout
 :-------------------------:|:-------------------------:
+![]()  |  ![]()
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+---
+
 # Resources/Links
 
-```
+```test
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
