@@ -1,6 +1,6 @@
 <div id="top" align="center">
   
-  <a href="https://github.com/Kmachappy/Runners-Page">
+  <a href="https://github.com/Kmachappy/Algo-Visualizer">
     <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
   </a>
 
@@ -9,7 +9,7 @@
   </a>
 
   <p align="center">
-    <p>An algorithm visualizer app created with React and typescript.</p>
+    <p>An algorithm visualizer created with React, Typescript, and GraphQL.</p>
     <a href="https://algorithm-visuals.netlify.app/"><strong>Live Website - AlgoVisualizer</strong></a>
     <br />
  React Web Application built on <br/>
