@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      'xs': '475',
+      xs: '475px',
       sm: '640px',
       md: '768px',
       lg: '1024px',
@@ -44,6 +44,8 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      blueCustom: '#84cee0',
+      orangeCustom: '#F58E6F'
     }),
     columns: {
       auto: 'auto',
