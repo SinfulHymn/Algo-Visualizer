@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import Test from '../images/BubbleSort.svg';
 
 const Home = () => {
     return (
@@ -24,8 +24,7 @@ const Home = () => {
                 <Link to="/sorting">
                     <div className="p-4">
                         <p>Sorting</p>
-                        <object type="image/svg+xml" data='image/BubbleSort.svg'>svg-animation</object>
-                        <img src="images/BubbleSort.svg" alt="" />
+                        <object type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
 
                 </Link>
