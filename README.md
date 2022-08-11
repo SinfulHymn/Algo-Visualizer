@@ -4,7 +4,7 @@
   <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
   </a>
 
-  <a href="https://algorithm-visuals.netlify.app/"><h3 align="center">Algorithm Visualizer</h3></a>
+## [Algorithm Visualizer](https://algorithm-visuals.netlify.app/)
 
   <p align="center">
     <p>An algorithm visualizer created with React, Typescript, and GraphQL.</p>
@@ -27,6 +27,7 @@ Description            |  Screenshot
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+# 
 
 # Component Architecture
 

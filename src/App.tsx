@@ -1,18 +1,16 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Content from './components/Content'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className="container mx-auto bg-gray-200 rounded-xl shadow border p-8 m-10">
-      <p className="text-3xl text-gray-700 font-bold mb-5">
-        Welcome!
-      </p>
-      <p className="text-gray-500 text-lg">
-        React and Tailwind CSS in action
-      </p>
+    <div className='flex flex-col h-screen bg-slate-100'>
+      <Header />
+      <Content />
+      <Footer />
     </div>
   )
 }
