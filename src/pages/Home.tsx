@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 
 const Home = () => {
     return (
@@ -16,6 +18,18 @@ const Home = () => {
                 <p className="text-center text-slate-600 my-1">
                     You can also use it to visualize the execution of a program.
                 </p>
+            </div>
+
+            <div className="grid lg:grid-cols-4">
+                <Link to="/sorting">
+                    <div className="p-4">
+                        <p>Sorting</p>
+                        <object type="image/svg+xml" data='image/BubbleSort.svg'>svg-animation</object>
+                        <img src="images/BubbleSort.svg" alt="" />
+                    </div>
+
+                </Link>
+
             </div>
 
         </div>
