@@ -22,13 +22,33 @@ const Home = () => {
 
             <div className="grid lg:grid-cols-4">
                 <Link to="/sorting">
-                    <div className="p-4">
-                        <p>Sorting</p>
+                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
+                        <p className="text-lg">Sorting</p>
                         <object type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
 
                 </Link>
+                <Link to="/sorting">
+                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
+                        <p className="text-lg">Sorting</p>
+                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                    </div>
 
+                </Link>
+                <Link to="/sorting">
+                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
+                        <p className="text-lg">Sorting</p>
+                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                    </div>
+
+                </Link>
+                <Link to="/sorting">
+                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
+                        <p className="text-lg">Sorting</p>
+                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                    </div>
+
+                </Link>
             </div>
 
         </div>
