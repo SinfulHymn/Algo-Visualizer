@@ -14,11 +14,12 @@ function Home() {
                     This is a web application that allows you to visualize algorithms.
                 </p>
                 <p className="text-center text-slate-600 my-1">
-                    You can use it to visualize sorting algorithms, searching algorithms, and pathfinding algorithms.
+                    You can use it to visualize sorting algorithms.
+                    {/* , searching algorithms, and pathfinding algorithms. */}
                 </p>
-                <p className="text-center text-slate-600 my-1">
+                {/* <p className="text-center text-slate-600 my-1">
                     You can also use it to visualize the execution of a program.
-                </p>
+                </p> */}
             </div>
 
             <div className="grid lg:grid-cols-4 grid-cols-1 gap-6 m-2">
@@ -29,7 +30,7 @@ function Home() {
                     </div>
                 </Link>
 
-                <Link to="/sorting" className="inline-block">
+                {/* <Link to="/sorting" className="inline-block">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
                         <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
@@ -47,7 +48,7 @@ function Home() {
                         <p className="text-lg">Sorting</p>
                         <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
-                </Link>
+                </Link> */}
 
             </div>
         </Container>
