@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import Test from '../images/BubbleSort.svg';
+import Test from 'images/BubbleSort.svg';
+import Container from 'components/common/Container';
 
-const Home = () => {
+
+function Home() {
     return (
-        <div className="container grow mx-auto p-6 sm:py-6">
-
+        <Container>
             <div className="text-sm sm:text-base p-4">
                 <h1 className=" text-xl sm:text-3xl font-bold text-center text-slate-600">
                     Welcome to <span className=" text-blueCustom">Algo</span><span className="text-orangeCustom">Visualizer</span>!
@@ -20,38 +21,36 @@ const Home = () => {
                 </p>
             </div>
 
-            <div className="grid lg:grid-cols-4 grid-cols-1">
-                <Link to="/sorting">
+            <div className="grid lg:grid-cols-4 grid-cols-1 gap-6 m-2">
+                <Link to="/sorting" className="inline-block">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
-                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
-
                 </Link>
-                <Link to="/sorting">
+
+                <Link to="/sorting" className="inline-block">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
-                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
-
                 </Link>
-                <Link to="/sorting">
+
+                <Link to="/sorting" className="inline-block">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
-                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
-
                 </Link>
-                <Link to="/sorting">
+                <Link to="/sorting" className="inline-block">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
-                        <object type="image/svg+xml" data={Test}>svg-animation</object>
+                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
                     </div>
-
                 </Link>
+
             </div>
-
-        </div>
+        </Container>
     );
 }
 
