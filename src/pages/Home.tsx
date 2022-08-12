@@ -20,7 +20,7 @@ const Home = () => {
                 </p>
             </div>
 
-            <div className="grid lg:grid-cols-4">
+            <div className="grid lg:grid-cols-4 grid-cols-1">
                 <Link to="/sorting">
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                         <p className="text-lg">Sorting</p>
