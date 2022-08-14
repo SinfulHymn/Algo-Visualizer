@@ -15,11 +15,11 @@ function SortingVisualizer({ type }: Props) {
     const [size, setSize] = useState(defaultButton);
 
     return (
-        <div>
+        <div className="relative">
 
             <div className="w-full h-[450px] mx-auto bg-emerald-100 dark:bg-gray-500 flex justify-center transition-colors items-end rounded-md shadow-sm">
 
-            <div className="flex  z-10   ">
+            <div className="absolute flex justify-center top-0">
                     {buttons.map(button => (
                         <button
                             key={button}
