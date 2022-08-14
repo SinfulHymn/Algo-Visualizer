@@ -52,7 +52,8 @@ function SortingVisualizer({ type }: Props) {
     const [isResetting, setIsResetting] = useState<boolean>(false);
     const [isRunning, setIsRunning] = useState<boolean>(false);
     const [isRunningAnimation, setIsRunningAnimation] = useState<boolean>(false);
-    
+    const [isComparing, setIsComparing] = useState<boolean>(false);
+    const [isSwapping, setIsSwapping] = useState<boolean>(false);
 
     function generateArray(size: number, min: number = 3, max: number = 40) {
         const array: number[] = [];
@@ -71,12 +72,12 @@ function SortingVisualizer({ type }: Props) {
         setArray(generateArray(size));
     }
 
-    
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
 
     return (
         <div className="relative">
 
-            <div className="w-full h-[450px] mx-auto bg-emerald-100 dark:bg-gray-500 flex justify-center transition-colors items-end rounded-md shadow-sm">
+            <div className="w-full h-[450px] mx-auto bg-emerald-200 dark:bg-gray-500 flex justify-center transition-colors items-end rounded-lg shadow-lg overflow-hidden">
 
             {/* button array controll */}
             <div className="absolute flex flex-1 justify-center top-0">
@@ -96,17 +97,21 @@ function SortingVisualizer({ type }: Props) {
                 </div>
             
             {/* button array control end */}
-            <div className="">
-                {array.map((value, index) => (
-                    <div
-                        key={index}
-                        className={classNames("flex justify-center px-5 py-1 mx-1 my-1 w-9 rounded-md text-sm font-semibold text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500", { "text-white": value === array[index], "bg-emerald-500": value !== array[index], "bg-emerald-700": value === array[index] })} > {value} </div> 
-                ))}
-                
-            </div>               
+            <div className="flex items-end">
+                {array.map((value, index,) => (
+                    <div className={classNames(" w-1/6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
+                        "bg-slate-500 text-white border-slate-900": !isComparing && !isSorted && !isSwapping,
+                        "bg-orange-300 text-white border-orange-500": isComparing,
+                        "bg-green-300 text-white border-green-500": isSorted,
+                        "bg-red-300 text-white border-red-500": isSwapping,
+                    })} style={{height: value*10}}>
+                        {value}
+                    </div>
+                ))}           
+              
             </div>
         </div>
-
+        </div>
 
 
     )
