@@ -1,6 +1,10 @@
 import classNames from "classnames";
 import { SetSortingAlgorithms } from "context/SortingEnum";
 import { useEffect, useState } from "react";
+import bubbleSort from "algorithms/sorting/bubbleSort";
+import insertionSort from "algorithms/sorting/insertionSort";
+import {mergeSort, merge} from "algorithms/sorting/mergeSort";
+import quickSort from "algorithms/sorting/quickSort";
 
 type Props = {
     type: string;
@@ -9,29 +13,6 @@ type Props = {
 const buttons = [5, 10, 15, 20, 25];
 const defaultButton = buttons[1];
 console.log(defaultButton);
-
-// const SortingVisualizer = ({ type }) => {
-
-//     const [size, setSize] = useState(defaultButton);
-//     const [array, setArray] = useState([]);
-//     const [sorted, setSorted] = useState(false);
-//     const [speed, setSpeed] = useState(1);
-//     const [algorithm, setAlgorithm] = useState(null);
-//     const [algorithms, setAlgorithms] = useState([]);
-//     const [category, setCategory] = useState(null);
-//     const [categoryName, setCategoryName] = useState(null);
-//     const [isLoading, setIsLoading] = useState(true);
-//     const [isError, setIsError] = useState(false);
-//     const [isSorting, setIsSorting] = useState(false);
-//     const [isSorted, setIsSorted] = useState(false);
-//     const [isStopped, setIsStopped] = useState(false);
-//     const [isPaused, setIsPaused] = useState(false);
-//     const [isReset, setIsReset] = useState(false);
-//     const [isResetting, setIsResetting] = useState(false);
-
-
-
-
 
 function SortingVisualizer({ type }: Props) {
     const [size, setSize] = useState<number>(defaultButton);
@@ -55,6 +36,10 @@ function SortingVisualizer({ type }: Props) {
     const [isComparing, setIsComparing] = useState<boolean>(false);
     const [isSwapping, setIsSwapping] = useState<boolean>(false);
 
+    // console.log(array.sort((a, b) => a - b));
+    console.log(bubbleSort  (array));
+
+
     function generateArray(size: number, min: number = 3, max: number = 40) {
         const array: number[] = [];
         while(array.length < size) {
@@ -73,6 +58,8 @@ function SortingVisualizer({ type }: Props) {
     }
 
     const mediaQuery = window.matchMedia("(max-width: 768px)");
+    console.log(mediaQuery);
+    
 
     return (
         <div className="relative">
@@ -99,7 +86,7 @@ function SortingVisualizer({ type }: Props) {
             {/* button array control end */}
             <div className="flex items-end">
                 {array.map((value, index,) => (
-                    <div className={classNames(" w-1/6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
+                    <div className={classNames("w-6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
                         "bg-slate-500 text-white border-slate-900": !isComparing && !isSorted && !isSwapping,
                         "bg-orange-300 text-white border-orange-500": isComparing,
                         "bg-green-300 text-white border-green-500": isSorted,
