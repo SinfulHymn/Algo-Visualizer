@@ -1,3 +1,5 @@
+
+
 export const SortingAlgorithms={
     BubbleSort : "Bubble-Sort",
     QuickSort :"Quick-Sort",
@@ -5,6 +7,16 @@ export const SortingAlgorithms={
     MergeSort : "Merge-Sort",
     BogoSort : "Bogo-Sort"
 }
+
+export type SortingAlgorithms = keyof typeof SortingAlgorithms;
+export type SetSortingAlgorithms =   {
+    [key in SortingAlgorithms]: {
+        name: string;
+        description: string;
+        complexity: string;
+    }
+}
+
 
 export const SetSortingAlgorithms = {
     [SortingAlgorithms.BubbleSort]: {

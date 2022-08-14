@@ -13,7 +13,7 @@ const Sorting = () => {
         {Object.values(SortingAlgorithms).map(algorithm => {
             const { name } = SetSortingAlgorithms[algorithm];
             return (
-                <Link to={`/sorting/${algorithm}`} className="inline-block" key={algorithm}>
+                <Link to={`/Sorting/${algorithm}`} className="inline-block" key={algorithm}>
                     <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
                          <p className="text-lg">{name}</p>       
                     </div>
