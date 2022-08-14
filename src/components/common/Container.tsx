@@ -4,7 +4,7 @@ type Props = {
     children: ReactNode;
 };
 
-const Container = ({ children }: Props ): ReactElement => {
+export default function Container({ children }: Props ): ReactElement{
     return (
         <div className="container grow mx-auto py-6 px-4 sm:p-6 sm:py-6">
             {children}
@@ -12,4 +12,3 @@ const Container = ({ children }: Props ): ReactElement => {
     );
 }
 
-export default Container;

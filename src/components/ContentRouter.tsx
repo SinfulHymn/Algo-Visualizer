@@ -1,16 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import Home from "pages/Home";
-import Sorting from "pages/Sorting";
-import Pathfinding from "pages/Pathfinding";
-import SortingVisualizer from "pages/SortingVisualizer";
+import Category from "pages/Category";
+import SortingPage from "pages/SortingPage";
 
 const ContentRouter = () => {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/sorting" element={<Sorting />}/>
-            <Route path="/pathfinding" element={<Pathfinding/>}/>
-            <Route path="/sorting/:algorithm" element={<SortingVisualizer />}/>
+            <Route path="/:category" element={<Category />}/>
+            <Route path="/:category/:type" element={<SortingPage />}/>
         </Routes>
 
     );

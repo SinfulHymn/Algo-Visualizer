@@ -3,6 +3,12 @@ import Test from 'images/BubbleSort.svg';
 import Container from 'components/common/Container';
 
 
+export enum AlgorithmCategory {
+    Sorting = "Sorting",
+    // Pathfinding = "Pathfinding",
+}
+
+
 function Home() {
     return (
         <Container>
@@ -21,35 +27,17 @@ function Home() {
                     You can also use it to visualize the execution of a program.
                 </p> */}
             </div>
-
             <div className="grid lg:grid-cols-4 grid-cols-1 gap-6 m-2">
-                <Link to="/sorting" className="inline-block">
-                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
-                        <p className="text-lg">Sorting</p>
-                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
-                    </div>
-                </Link>
-
-                {/* <Link to="/sorting" className="inline-block">
-                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
-                        <p className="text-lg">Sorting</p>
-                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
-                    </div>
-                </Link>
-
-                <Link to="/sorting" className="inline-block">
-                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
-                        <p className="text-lg">Sorting</p>
-                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
-                    </div>
-                </Link>
-                <Link to="/sorting" className="inline-block">
-                    <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
-                        <p className="text-lg">Sorting</p>
-                        <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
-                    </div>
-                </Link> */}
-
+                {Object.values(AlgorithmCategory).map(category => {
+                    return (
+                        <Link to={`/${category}`} className="inline-block">
+                            <div className="hover:ring hover:ring-orangeCustom hover:-translate-y-1 rounded-md transition-all p-4 flex flex-col items-center justify-center">
+                                <p className="text-lg">{category}</p>
+                                <object className="pointer-events-none" type="image/svg+xml" data={Test}>svg-animation</object>
+                            </div>
+                        </Link>
+                    )}
+                )}
             </div>
         </Container>
     );
