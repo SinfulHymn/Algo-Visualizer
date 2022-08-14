@@ -2,12 +2,29 @@ import Container from "components/common/Container";
 import Heading from "components/Heading";
 import { Link, useParams } from "react-router-dom";
 import { SortingAlgorithms, SetSortingAlgorithms } from "context/SortingEnum";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-
+type Props = {
+    category: string;
+};
 const Sorting = () => {
-    const {category} = useParams();
+    const {category} = useParams<keyof Props>() as Props;
     const [categoryName, setCategoryName] = useState<string | null>(null);
+    const [algorithms, setAlgorithms] = useState<SortingAlgorithms[]>([]);
+    // useEffect(() => {
+    //     const ob = SetSortingAlgorithms[category];
+    //     console.log(ob);
+        
+    //     if (ob == null) {
+    //         return;
+    //     }
+    //     setCategoryName(ob.name);
+    //     // setAlgorithms(ob.algorithms);
+    // } , []);
+    // if(categoryName === null){
+    //     return <div className="delay-1000">Loading...</div>
+    // }
+    
 
     return(
     <Container>

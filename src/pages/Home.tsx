@@ -7,7 +7,9 @@ export enum AlgorithmCategory {
     Sorting = "Sorting",
     Pathfinding = "Pathfinding",
 }
-export type AlgorithmType = typeof AlgorithmCategory;
+export type AlgorithmType = {
+    name: string;
+}
 
 function Home() {
     return (
