@@ -19,7 +19,7 @@ function SortingPage(){
     const { type, category } = useParams<keyof Props>() as Props;
     const navigate = useNavigate();
     const [algorithm, setAlgorithm] = useState< null |algorithm >(null);
-    console.log(algorithm);
+    // console.log(algorithm);
     
     useEffect(() => {
         const ob = SetSortingAlgorithms[type];

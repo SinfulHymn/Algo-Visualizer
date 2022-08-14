@@ -5,9 +5,9 @@ import Container from 'components/common/Container';
 
 export enum AlgorithmCategory {
     Sorting = "Sorting",
-    // Pathfinding = "Pathfinding",
+    Pathfinding = "Pathfinding",
 }
-
+export type AlgorithmType = typeof AlgorithmCategory;
 
 function Home() {
     return (
@@ -20,7 +20,7 @@ function Home() {
                     This is a web application that allows you to visualize algorithms.
                 </p>
                 <p className="text-center text-slate-600 my-1">
-                    You can use it to visualize sorting algorithms.
+                    You can use it to visualize sorting algorithms and maybe pathfinding one day.
                     {/* , searching algorithms, and pathfinding algorithms. */}
                 </p>
                 {/* <p className="text-center text-slate-600 my-1">

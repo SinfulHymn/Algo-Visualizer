@@ -2,10 +2,13 @@ import Container from "components/common/Container";
 import Heading from "components/Heading";
 import { Link, useParams } from "react-router-dom";
 import { SortingAlgorithms, SetSortingAlgorithms } from "context/SortingEnum";
+import { useState } from "react";
 
 
 const Sorting = () => {
     const {category} = useParams();
+    const [categoryName, setCategoryName] = useState<string | null>(null);
+
     return(
     <Container>
         <Heading title={`${category}`}backLink="/" />
