@@ -22,17 +22,18 @@ function SortingPage(){
     // console.log(algorithm);
     
     useEffect(() => {
-        const ob = SetSortingAlgorithms[type];
-        if (ob == null) {
+        const algorithmData = SetSortingAlgorithms[type];
+        if (algorithmData == null) {
             navigate("/error");
             return;
           }
-        setAlgorithm(ob);
-        
+        setAlgorithm(algorithmData);
     } , []);
+
     if(algorithm === null){
         return <div className="delay-1000">Loading...</div>
     }
+    
     const { name, description, complexity } = algorithm;
     return(
         <Container>

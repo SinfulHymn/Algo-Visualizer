@@ -33,7 +33,13 @@ Description            |  Screenshot
 
 ```mermaid
 flowchart LR
-App-->Index
+App-->Navbar
+App-->Home
+App-->Category
+Category-->SortingPage
+Category-->PathfindingPage
+SortingPage-->SortingVisualizer
+App-->Footer
 
 
 ```

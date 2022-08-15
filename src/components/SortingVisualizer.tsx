@@ -10,34 +10,47 @@ type Props = {
     type: string;
 }
 
+export enum State{
+    COMPARE = "COMPARE",
+    SWAP = "SWAP",
+    SORT = "SORT",
+    INSERT = "INSERT",
+    WATCH = "WATCH"
+}
+
+class test {
+    private arr: number[] = [];
+    public arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+}
+console.log(test.prototype.arr2);
+console.log("test");
+
 const buttons = [5, 10, 15, 20, 25];
 const defaultButton = buttons[1];
-console.log(defaultButton);
+
+const speed  = [0.5,1,2,]
+const defaultSpeed = speed[1];
+
+
 
 function SortingVisualizer({ type }: Props) {
+    // array size
     const [size, setSize] = useState<number>(defaultButton);
+    // the array of numbers to sort
     const [array, setArray] = useState<number[]>(generateArray(defaultButton));
+
     const [sorted, setSorted] = useState<boolean>(false);
-    const [speed, setSpeed] = useState<number>(1);
+    const [speed, setSpeed] = useState<number>(defaultSpeed);
     const [algorithm, setAlgorithm] = useState<string | null>(null);
-    const [algorithms, setAlgorithms] = useState<string[]>([]);
-    const [category, setCategory] = useState<string | null>(null);
-    const [categoryName, setCategoryName] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isError, setIsError] = useState<boolean>(false);
     const [isSorting, setIsSorting] = useState<boolean>(false);
     const [isSorted, setIsSorted] = useState<boolean>(false);
     const [isStopped, setIsStopped] = useState<boolean>(false);
     const [isPaused, setIsPaused] = useState<boolean>(false);
-    const [isReset, setIsReset] = useState<boolean>(false);
-    const [isResetting, setIsResetting] = useState<boolean>(false);
     const [isRunning, setIsRunning] = useState<boolean>(false);
-    const [isRunningAnimation, setIsRunningAnimation] = useState<boolean>(false);
-    const [isComparing, setIsComparing] = useState<boolean>(false);
+    const [isComparing, setIsComparing] = useState([]);
     const [isSwapping, setIsSwapping] = useState<boolean>(false);
 
-    // console.log(array.sort((a, b) => a - b));
-    console.log(bubbleSort  (array));
+   
 
 
     function generateArray(size: number, min: number = 3, max: number = 40) {
@@ -57,8 +70,8 @@ function SortingVisualizer({ type }: Props) {
         setArray(generateArray(size));
     }
 
-    const mediaQuery = window.matchMedia("(max-width: 768px)");
-    console.log(mediaQuery);
+    // const mediaQuery = window.matchMedia("(max-width: 768px)");
+    // console.log(mediaQuery);
     
 
     return (
@@ -85,13 +98,13 @@ function SortingVisualizer({ type }: Props) {
             
             {/* button array control end */}
             <div className="flex items-end">
-                {array.map((value, index,) => (
-                    <div className={classNames("w-6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
+                {array.map((value, index) => (
+                    <div key={index} className={classNames("w-6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
                         "bg-slate-500 text-white border-slate-900": !isComparing && !isSorted && !isSwapping,
-                        "bg-orange-300 text-white border-orange-500": isComparing,
+                        "bg-orange-300 text-white border-orange-500": isComparing === index,
                         "bg-green-300 text-white border-green-500": isSorted,
                         "bg-red-300 text-white border-red-500": isSwapping,
-                    })} style={{height: value*10}}>
+                    })} style={{height: value*10}} >
                         {value}
                     </div>
                 ))}           

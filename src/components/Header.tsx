@@ -7,7 +7,7 @@ const Header = () => (
             <div className="flex justify-between items-center">
                 {/* box1 */}
                 <div className="flex flex-1 items-center content-center">
-                    <NavLink className=" flex items-center" to="/">
+                    <NavLink className="flex items-center" to="/">
                         <img src="/images/logo.svg" alt="" className="h-10 " />
                         <span className="text-xl font-semibold">
                             AlgoVisualizer
