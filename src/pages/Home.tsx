@@ -5,7 +5,7 @@ import Container from 'components/common/Container';
 
 export enum AlgorithmCategory {
     Sorting = "Sorting",
-    Pathfinding = "Pathfinding",
+    // Pathfinding = "Pathfinding",
 }
 export type AlgorithmType = {
     name: string;

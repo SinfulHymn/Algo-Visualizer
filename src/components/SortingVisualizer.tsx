@@ -78,7 +78,7 @@ function SortingVisualizer({ type }: Props) {
 
     function animationIteration(animations: any[]) {
         const length = animations.length;
-        setTimeout(() => {
+
         for (let i = 0; i < length; i++) {
             let timeout = window.setTimeout(() => {
                 console.log(timeout);
@@ -106,8 +106,7 @@ function SortingVisualizer({ type }: Props) {
             }, i * (300 / speed));
         }
 
-        setIsRunning(false);
-        }, 6000);
+
     }
 
 
