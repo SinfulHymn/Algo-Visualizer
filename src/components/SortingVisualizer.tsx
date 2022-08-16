@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { SetSortingAlgorithms } from "context/SortingEnum";
+import { SetSortingAlgorithms, SortingAlgorithms } from "context/SortingEnum";
 import { useEffect, useState } from "react";
 import bubbleSort from "algorithms/sorting/bubbleSort";
 import insertionSort from "algorithms/sorting/insertionSort";
@@ -10,50 +10,48 @@ type Props = {
     type: string;
 }
 
+
+
 export enum State{
     COMPARE = "COMPARE",
     SWAP = "SWAP",
-    SORT = "SORT",
+    SORTED = "SORTED",
     INSERT = "INSERT",
     WATCH = "WATCH"
 }
 
-class test {
-    private arr: number[] = [];
-    public arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-}
-console.log(test.prototype.arr2);
-console.log("test");
+
 
 const buttons = [5, 10, 15, 20, 25];
 const defaultButton = buttons[1];
 
-const speed  = [0.5,1,2,]
-const defaultSpeed = speed[1];
+const speedButtons  = [0.5,1,2]
+const defaultSpeed = speedButtons[1];
 
 
 
 function SortingVisualizer({ type }: Props) {
+    console.log(type);
+    
     // array size
     const [size, setSize] = useState<number>(defaultButton);
     // the array of numbers to sort
     const [array, setArray] = useState<number[]>(generateArray(defaultButton));
-
-    const [sorted, setSorted] = useState<boolean>(false);
+    const [unmodifiedArray, setUnmodifiedArray] = useState<number[]>();
     const [speed, setSpeed] = useState<number>(defaultSpeed);
-    const [algorithm, setAlgorithm] = useState<string | null>(null);
-    const [isSorting, setIsSorting] = useState<boolean>(false);
-    const [isSorted, setIsSorted] = useState<boolean>(false);
-    const [isStopped, setIsStopped] = useState<boolean>(false);
-    const [isPaused, setIsPaused] = useState<boolean>(false);
-    const [isRunning, setIsRunning] = useState<boolean>(false);
-    const [isComparing, setIsComparing] = useState([]);
-    const [isSwapping, setIsSwapping] = useState<boolean>(false);
-
+    const [animations, setAnimations] = useState<any[]>([]);
+    const [compare, setCompare] = useState<number[]>([]);
+    const [swap, setSwap] = useState<number[]>([]);
+    const [sorted, setSorted] = useState<number[]>([]);
+    const [timeoutarray, setTimeoutarray] = useState<[]>([]);
+//    console.log('animations', animations);
    
+    // console.log('speed', speed);
+    
+     
 
 
-    function generateArray(size: number, min: number = 3, max: number = 40) {
+    function generateArray(size: number, min: number = 3, max: number = 35) {
         const array: number[] = [];
         while(array.length < size) {
             const random = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -63,16 +61,105 @@ function SortingVisualizer({ type }: Props) {
         }
         return array;
     }
-
+    
+    function handleSpeedChange(speed: number) {
+        setSpeed(speed);
+    }
 
     function handleSizeChange(size: number) {
         setSize(size);
         setArray(generateArray(size));
+        console.log(compare);
+        
+    }
+    console.log(speed);
+    
+    function animationIteration(animations: any[]) {
+        const length = animations.length;
+
+        for(let i = 0; i < length; i++) {
+            let timeout = setTimeout(() => {
+            console.log(timeout);
+            
+            const { state, index1, index2 } = animations[i];
+            console.log(state, index1, index2);
+            if(state === State.COMPARE) {
+                setCompare([index1, index2]);
+            }
+            if(state === State.SWAP) {
+                setSwap([index1, index2]);
+
+            }
+        }, i * speed * 1000);
+            // if(state === State.SORTED) {
+            //     setSorted([index1, index2]);
+            // }
+        }  
     }
 
-    // const mediaQuery = window.matchMedia("(max-width: 768px)");
-    // console.log(mediaQuery);
+    function handleStart(){
+        console.log('start');
+        animationIteration(animations);
+        
+    }
+
+    function handleStop(){
+        console.log('stop');
+        clearTimeout();
+        setAnimations([]);
+    }
+
+    //function to iterate through the animations array
+    //check what the type is if compare add array of the indexes in the state ex. [3,4]
+    // conditionall render the color of the if the indexx is in = state compare index
+    // if type is swap add array of the indexes in the state ex [3,4]
+    // then manipulate the original array swap [3] with [4] // make sure to rewrite bubble to take a copy of the array to not modify it     
+    function bubbleSort(array: number[]){
+        const animations = [];
+        const sorted = []
+        const length = array.length;
+        for(let i = 0; i < length; i++) {
+            for(let j = 0; j < length -i - 1; j++) {
+                animations.push({
+                    state: State.COMPARE,
+                    index1: j,
+                    value1: array[j],
+                    index2: j + 1,
+                    value2: array[j+1]
+
+                });
+                if(array[j] > array[j + 1]) {
+                    animations.push({
+                        state: State.SWAP,
+                        index1: j,
+                        value1: array[j],
+                        index2: j + 1,
+                        value2: array[j+1]
+                    });
+                    [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                }
+            }
+            sorted.push({
+                state: State.SORTED,
+                index1: length - i - 1,
+            });
+        }
+        // return animations;
+        return setAnimations(animations);
+    }
+
+
+    console.log(animations);
     
+    // on load sort my copy of array
+    // run use effect when the size of my array changes because I need to resort the new array size
+    useEffect(() => {
+            bubbleSort([...array]);
+
+
+    }, [size]);
+
+
 
     return (
         <div className="relative">
@@ -80,14 +167,14 @@ function SortingVisualizer({ type }: Props) {
             <div className="w-full h-[450px] mx-auto bg-emerald-200 dark:bg-gray-500 flex justify-center transition-colors items-end rounded-lg shadow-lg overflow-hidden">
 
             {/* button array controll */}
-            <div className="absolute flex flex-1 justify-center top-0">
+            <div className="absolute flex justify-center  rounded-b-md top-0 shadow-md bg-emerald-500 overflow-hidden ">
                     {buttons.map(button => (
                         <button
                             key={button}
-                            className={classNames("flex justify-center px-5 py-1 mx-1 my-1 w-9 rounded-md text-sm font-semibold text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500", {
-                                "text-white": size === button,
+                            className={classNames("flex justify-center transition-colors  px-5 py-1   w-10  text-sm   text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500", {
+                                "border-emerald-500 dark:border-gray-500": button === size,
                                 "bg-emerald-500": size !== button,
-                                "bg-emerald-700": size === button,
+                                "bg-emerald-700 hover:bg-emerald-900": size === button,
                             })}
                             onClick={() => handleSizeChange(button)}
                         >
@@ -97,24 +184,85 @@ function SortingVisualizer({ type }: Props) {
                 </div>
             
             {/* button array control end */}
-            <div className="flex items-end">
+            {/* speed controll */}
+            <div className="absolute flex flex-col justify-center  rounded-tr-md top-0 right-0 rounded-bl-md p- shadow-md bg-emerald-500 overflow-hidden ">
+                    {speedButtons.map(item => (
+                        <button
+                            key={item}
+                            className={classNames("flex justify-center px-5 py-1 transition-colors w-8 text-sm  text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500", {
+                                "border-emerald-500 dark:border-gray-500": item === speed,
+                                "bg-emerald-500": item !== speed,
+                                "bg-emerald-700 hover:bg-emerald-900": item === speed,
+                            })}
+                            onClick={() => handleSpeedChange(item)}
+                        >
+                            {item}x
+                        </button>
+                    ))}
+            </div>
+            {/* speed controll end */}
+            {/* array of bar */}
+            <div className="flex items-end w-full justify-center">
                 {array.map((value, index) => (
-                    <div key={index} className={classNames("w-6 border border-b-0  font-semibold text-center items-end text-white bg-emerald-500 hover:bg-emerald-700 dark:bg-gray-500 text-xs flex justify-center rounded-t-md transition-all pb-1 mx-0.5 ", {
-                        "bg-slate-500 text-white border-slate-900": !isComparing && !isSorted && !isSwapping,
-                        "bg-orange-300 text-white border-orange-500": isComparing === index,
-                        "bg-green-300 text-white border-green-500": isSorted,
-                        "bg-red-300 text-white border-red-500": isSwapping,
-                    })} style={{height: value*10}} >
+                    <>
+                    <div
+                        style={ { height: `${value*10}px` } }
+                        key={index}
+                        className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center bg-slate-500 border-slate-800  mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
+                            " bg-amber-500 border-amber-600 hover:bg-amber-900 dark:bg-gray-500": index === compare[0] || index === compare[1],
+                            // function that iterates the animations
+                            // state taht 
+                            // set currentIteration
+
+                            // { state.compare, index1: 0 index2: 1} 
+                            // css orange : array in index 1 && index 2 
+                            //                           
+
+                            
+                        })}
+
+                    >
                         {value}
                     </div>
-                ))}           
-              
-            </div>
-        </div>
-        </div>
+                    </>
+                ))}
+                
 
+            </div>
+                        
+        </div>
+        <div className="flex justify-center my-3 ">
+
+        <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={()=> handleStart()}>
+                        start
+        </button>
+        <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={()=> handleStop()}>
+                        stop
+        </button>
+        </div>
+    </div>
 
     )
 }
 
 export default SortingVisualizer
+
+// function bubbleSort(array: number[]){
+//     const animations = [];
+//     const length = array.length;
+//     for(let i = 0; i < length; i++) {
+//         for(let j = 0; j < length -i - 1; j++) {
+//             animations.push({
+//                 type: State.COMPARE,
+//                 index1: j,
+//                 index2: j + 1
+//             });
+//             if(array[j] > array[j + 1]) {
+//                 animations.push({
+//                     type: State.SWAP,
+//                     index1: j,
+//                     index2: j + 1
+//                 });
+//                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
+//             }
+//         }

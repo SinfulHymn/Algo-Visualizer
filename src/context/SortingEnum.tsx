@@ -8,7 +8,7 @@ export const SortingAlgorithms={
     BogoSort : "Bogo-Sort"
 }
 
-export type SortingAlgorithms = keyof typeof SortingAlgorithms;
+export type SortingAlgorithms = keyof typeof SortingAlgorithms | string;
 export type SetSortingAlgorithms =   {
     [key in SortingAlgorithms]: {
         name: string;
