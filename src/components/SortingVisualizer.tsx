@@ -48,6 +48,7 @@ function SortingVisualizer({ type }: Props) {
    
     // console.log('speed', speed);
     
+     console.log('sorted', sorted);
      
 
 
@@ -76,10 +77,11 @@ function SortingVisualizer({ type }: Props) {
     
     function animationIteration(animations: any[]) {
         const length = animations.length;
-
+        
         for(let i = 0; i < length; i++) {
-            let timeout = setTimeout(() => {
-            console.log(timeout);
+            let timeout = window.setTimeout(() => {
+                console.log(timeout);
+                setSwap([])
             
             const { state, index1, index2 } = animations[i];
             console.log(state, index1, index2);
@@ -87,18 +89,31 @@ function SortingVisualizer({ type }: Props) {
                 setCompare([index1, index2]);
             }
             if(state === State.SWAP) {
-                setSwap([index1, index2]);
-
+                setSwap([index1, index2]); 
+                const arrayCopy = array
+                const temp = arrayCopy[index1];
+                arrayCopy[index1] = arrayCopy[index2];
+                arrayCopy[index2] = temp;
+                setArray(arrayCopy);
+                setCompare([]);
             }
-        }, i * speed * 1000);
-            // if(state === State.SORTED) {
-            //     setSorted([index1, index2]);
-            // }
+            if(state === State.SORTED) {
+                setSorted([...sorted, index1]);
+                setCompare([]);
+            }
+            // setCompare([]);
+        }, i * (200/ speed));
         }  
+
+
     }
+    
+
 
     function handleStart(){
         console.log('start');
+        setTimeoutarray([]);
+        setUnmodifiedArray(array);
         animationIteration(animations);
         
     }
@@ -139,7 +154,7 @@ function SortingVisualizer({ type }: Props) {
                     [array[j], array[j + 1]] = [array[j + 1], array[j]];
                 }
             }
-            sorted.push({
+            animations.push({
                 state: State.SORTED,
                 index1: length - i - 1,
             });
@@ -209,7 +224,9 @@ function SortingVisualizer({ type }: Props) {
                         style={ { height: `${value*10}px` } }
                         key={index}
                         className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center bg-slate-500 border-slate-800  mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
-                            " bg-amber-500 border-amber-600 hover:bg-amber-900 dark:bg-gray-500": index === compare[0] || index === compare[1],
+                            " bg-amber-500 border-amber-600 dark:bg-gray-500": index === compare[0] || index === compare[1],
+                            "bg-red-600 border-red-700 dark:bg-gray-500": index === swap[0] || index === swap[1],
+                            "bg-green-600 border-green-700 dark:bg-gray-500": sorted.includes(index),
                             // function that iterates the animations
                             // state taht 
                             // set currentIteration
