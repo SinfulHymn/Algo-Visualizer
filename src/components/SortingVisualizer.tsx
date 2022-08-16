@@ -23,7 +23,7 @@ export enum State{
 
 
 const buttons = [5, 10, 15, 20, 25];
-const defaultButton = buttons[1];
+const defaultButton = buttons[3];
 
 const speedButtons  = [0.5,1,2]
 const defaultSpeed = speedButtons[1];
@@ -102,7 +102,7 @@ function SortingVisualizer({ type }: Props) {
                 setCompare([]);
             }
             // setCompare([]);
-        }, i * (200/ speed));
+        }, i * (200 / speed));
         }  
 
 
@@ -223,7 +223,7 @@ function SortingVisualizer({ type }: Props) {
                     <div
                         style={ { height: `${value*10}px` } }
                         key={index}
-                        className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center bg-slate-500 border-slate-800  mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
+                        className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center bg-slate-500 border-slate-800  mx-0.5 transition-all rounded-t-md text-white flex justify-center items-end text-xs ", {
                             " bg-amber-500 border-amber-600 dark:bg-gray-500": index === compare[0] || index === compare[1],
                             "bg-red-600 border-red-700 dark:bg-gray-500": index === swap[0] || index === swap[1],
                             "bg-green-600 border-green-700 dark:bg-gray-500": sorted.includes(index),
