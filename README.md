@@ -23,7 +23,7 @@
 
 Description            |  Screenshot
 :---:|:----:
-| <p align="left">- A simple React web application made to visualize algorithms <br> - Users will be able to choose from one of the sorting algorithms or pathfinding algorithms to explore and visualize. <br></p> | ![]() |
+|<p align="left">- A simple React web application made to visualize algorithms <br> - Users will be able to choose from one of the sorting algorithms or pathfinding algorithms to explore and visualize. <br></p> | ![https://i.imgur.com/Y26pUBA.jpg](https://i.imgur.com/Y26pUBA.jpg) |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -47,3 +47,10 @@ App-->Footer
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
+
+Home            |  Visualizer
+:---:|:----:
+|![home](https://i.imgur.com/YYRDfI6.jpg) | ![Visualizer](https://i.imgur.com/Y26pUBA.jpg) |
+
+<p align="right">(<a href="#top">back to top</a>)</p
+https://i.imgur.com/YYRDfI6.jpg
