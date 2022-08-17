@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { SetSortingAlgorithms, SortingAlgorithms } from "context/SortingEnum";
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import bubbleSort from "algorithms/sorting/bubbleSort";
 import insertionSort from "algorithms/sorting/insertionSort";
 import { mergeSort, merge } from "algorithms/sorting/mergeSort";
@@ -23,7 +23,8 @@ const buttons = [5, 10, 15, 20, 25];
 const defaultButton = buttons[0];
 
 const speedButtons = [0.5, 1, 2]
-const defaultSpeed = speedButtons[1];
+const defaultSpeed = speedButtons[2];
+
 
 
 
@@ -47,9 +48,17 @@ function SortingVisualizer({ type }: Props) {
     const [isSorted, setIsSorted] = useState<boolean>(false);
     const [isInsert, setIsInsert] = useState<boolean>(false);
     const [sameSize, setSameSize] = useState<boolean>(false);
+    // state that references all the timeouts
+    const [timeouts, setTimeouts] = useState<number[] | NodeJS.Timeout[]>([])
+    // state that references what position in the array is being compared
+    const [position, setPosition] = useState<number>(0);
+    const [isPaused, setIsPaused] = useState<boolean>(false);
+
+
     console.log('animations', animations);
     console.log('unmodifiedArray', unmodifiedArray);
-    
+    console.log('timeouts', timeouts);
+
 
     function generateArray(size: number, min: number = 3, max: number = 35) {
         const array: number[] = [];
@@ -67,7 +76,7 @@ function SortingVisualizer({ type }: Props) {
     }
 
     function handleSizeChange(buttonsize: number) {
-        if(buttonsize === size ){
+        if (buttonsize === size) {
             setSameSize(!sameSize);
         }
         setSize(buttonsize);
@@ -80,6 +89,7 @@ function SortingVisualizer({ type }: Props) {
         const newArray = generateArray(buttonsize);
         setArray([...newArray]);
         setUnmodifiedArray([...newArray]);
+        setPosition(0);
     }
 
     function handleStart() {
@@ -88,10 +98,12 @@ function SortingVisualizer({ type }: Props) {
         setTimeoutarray([]);
         setIsRunning(true);
         animationIteration(animations);
-
     }
 
+
+
     function handleReset() {
+        StopTimeout();
         setIsRunning(false);
         setIsComplete(false);
         setArray([...unmodifiedArray]);
@@ -100,12 +112,23 @@ function SortingVisualizer({ type }: Props) {
         setSwap([]);
         setSorted([]);
         setTimeoutarray([]);
+        setPosition(0);
     }
 
     function handleStop() {
         console.log('stop');
-        clearTimeout();
-        // setAnimations([]);
+        setIsRunning(false);
+        setIsPaused(true)
+        StopTimeout();
+    }
+
+    function handleResume() {
+        console.log('resume');
+        StopTimeout();
+        setIsRunning(true);
+        setIsPaused(false);
+
+        animationIteration(animations);
     }
 
     //function to iterate through the animations array
@@ -186,21 +209,26 @@ function SortingVisualizer({ type }: Props) {
         return setAnimations(animations);
     }
 
-    async function animationIteration(animations: any[]) {
+    function StopTimeout() {
+        timeouts.forEach(timeout => {
+            clearTimeout(timeout);
+        })
+        setTimeouts([]);
+    }
+    console.log('position', position);
+
+    function animationIteration(animations: any[]) {
         const length = animations.length;
+        const timeouts = [];
+        const sorted: number[] = []
+        let j: number;
+        position === 0 ? j = 0 : j = position;
+        console.log('j', j);
 
-        //keep tracking of what index i am on in the array
-        //so when I pause I can resume from where I left off
-        //store the index in the state
-        for (let i = 0; i < length; i++) {
-            let newSpeed = speed;
-                if(newSpeed !==speed){
-                    newSpeed = speed;
-                }
-                
-                // console.log(timeout, 'timeout');
+        for (let i = j; i < length; i++) {
+            timeouts.push(setTimeout(() => {
+                setPosition(i);
                 setSwap([])
-
                 const { state, index1, index2 } = animations[i];
                 console.log(state, index1, index2);
                 if (state === State.COMPARE) {
@@ -216,20 +244,18 @@ function SortingVisualizer({ type }: Props) {
                     setCompare([]);
                 }
                 if (state === State.SORTED) {
-                    const sortedCopy = [...sorted];
-                    sortedCopy.push(index1);
-                    setSorted(sortedCopy);
+                    sorted.push(index1);
+                    // setSorted(sortedCopy);
                     setCompare([]);
                 }
                 if (state === State.COMPLETE) {
                     setIsComplete(true);
                 }
                 // setCompare([]);
-               const time = await new Promise(resolve => setTimeout(resolve, (300/newSpeed)));
-               console.log(time, 'time');
-               
+            }, i * (300 / speed)));
         }
-
+        setSorted(sorted);
+        setTimeouts(timeouts);
     }
     // on load sort my copy of array
     // run use effect when the size of my array changes because I need to resort the new array size
@@ -272,7 +298,7 @@ function SortingVisualizer({ type }: Props) {
 
 
                 {/* button array controll */}
-                <div className="absolute flex justify-center  rounded-b-md top-0 shadow-lg bg-emerald-500 overflow-hidden ">
+                {!isRunning && (<div className="absolute flex justify-center  rounded-b-md top-0 shadow-lg bg-emerald-500 overflow-hidden ">
                     {buttons.map(button => (
                         <button
                             key={button}
@@ -286,7 +312,7 @@ function SortingVisualizer({ type }: Props) {
                             {button}
                         </button>
                     ))}
-                </div>
+                </div>)}
 
                 {/* button array control end */}
                 {/* speed controll */}
@@ -339,7 +365,7 @@ function SortingVisualizer({ type }: Props) {
 
             </div>
             <div className="flex justify-center my-3 ">
-                {!isRunning ? (
+                {/* {!isRunning ? (
                     <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStart()}>
                         start
                     </button>
@@ -348,16 +374,32 @@ function SortingVisualizer({ type }: Props) {
                     <button className="bg-red-500 hover:bg-red-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStop()}>
                         stop
                     </button>
-                )
-                // {isRunning | }
-                
-                }
+                )} */}
 
-                {isComplete && (
+                {!isRunning && !isPaused ? (
+                    <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStart()}>
+                        start
+                    </button>
+                ): null}
+                {isRunning && !isComplete ? (
+                    <button className="bg-red-500 hover:bg-red-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStop()}>
+                        stop
+                    </button>
+                ):null}
+
+
+
+                {isPaused && (
+                    <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleResume()}>
+                        resume
+                    </button>
+                )}
+
+                {isComplete || isRunning? (
                     <button className="bg-slate-500 hover:bg-slate-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleReset()}>
                         reset
                     </button>
-                )}
+                ):null}
 
             </div>
         </div>
