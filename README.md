@@ -23,7 +23,7 @@
 
 Description            |  Screenshot
 :---:|:----:
-|<p align="left">- A simple React web application made to visualize algorithms <br> - Users will be able to choose from one of the sorting algorithms or pathfinding algorithms to explore and visualize. <br></p> | ![https://i.imgur.com/Y26pUBA.jpg](https://i.imgur.com/Y26pUBA.jpg) |
+|<p align="left">- A simple React web application made to visualize algorithms <br> - Users will be able to choose from one of the sorting algorithms or pathfinding algorithms to explore and visualize. <br>- Users are able to choose visualizer array size and speed<br> - Users are able to stop visualizer and reset the visualizer to its original state </p> | ![https://i.imgur.com/Y26pUBA.jpg](https://i.imgur.com/DohNvTA.gif) |
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -38,7 +38,13 @@ App-->Home
 App-->Category
 Category-->SortingPage
 Category-->PathfindingPage
+PathfindingPage-->Visualizer
 SortingPage-->SortingVisualizer
+SortingVisualizer-->BubbleSort
+SortingVisualizer-->InsertionSort
+SortingVisualizer-->MergeSort
+SortingVisualizer-->QuickSort
+SortingVisualizer-->BogoSort
 App-->Footer
 
 
