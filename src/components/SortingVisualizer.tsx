@@ -186,12 +186,19 @@ function SortingVisualizer({ type }: Props) {
         return setAnimations(animations);
     }
 
-    function animationIteration(animations: any[]) {
+    async function animationIteration(animations: any[]) {
         const length = animations.length;
 
+        //keep tracking of what index i am on in the array
+        //so when I pause I can resume from where I left off
+        //store the index in the state
         for (let i = 0; i < length; i++) {
-            let timeout = window.setTimeout(() => {
-                console.log(timeout, 'timeout');
+            let newSpeed = speed;
+                if(newSpeed !==speed){
+                    newSpeed = speed;
+                }
+                
+                // console.log(timeout, 'timeout');
                 setSwap([])
 
                 const { state, index1, index2 } = animations[i];
@@ -218,7 +225,9 @@ function SortingVisualizer({ type }: Props) {
                     setIsComplete(true);
                 }
                 // setCompare([]);
-            }, i * (300 / speed));
+               const time = await new Promise(resolve => setTimeout(resolve, (300/newSpeed)));
+               console.log(time, 'time');
+               
         }
 
     }
