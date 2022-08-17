@@ -2,8 +2,8 @@
 
 export const SortingAlgorithms={
     BubbleSort : "Bubble-Sort",
-    QuickSort :"Quick-Sort",
     InsertionSort : "Insertion-Sort",
+    QuickSort :"Quick-Sort",
     MergeSort : "Merge-Sort",
     BogoSort : "Bogo-Sort"
 }

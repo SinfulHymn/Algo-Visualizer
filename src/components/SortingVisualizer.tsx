@@ -10,20 +10,17 @@ type Props = {
     type: string;
 }
 
-
-
 export enum State {
     COMPARE = "COMPARE",
     SWAP = "SWAP",
     SORTED = "SORTED",
     INSERT = "INSERT",
-    WATCH = "WATCH"
+    WATCH = "WATCH",
+    COMPLETE = "COMPLETE"
 }
 
-
-
 const buttons = [5, 10, 15, 20, 25];
-const defaultButton = buttons[3];
+const defaultButton = buttons[0];
 
 const speedButtons = [0.5, 1, 2]
 const defaultSpeed = speedButtons[1];
@@ -31,13 +28,13 @@ const defaultSpeed = speedButtons[1];
 
 
 function SortingVisualizer({ type }: Props) {
-    console.log(type);
+    // console.log(type);
 
     // array size
     const [size, setSize] = useState<number>(defaultButton);
     // the array of numbers to sort
     const [array, setArray] = useState<number[]>(generateArray(defaultButton));
-    const [unmodifiedArray, setUnmodifiedArray] = useState<number[]>();
+    const [unmodifiedArray, setUnmodifiedArray] = useState<number[]>([]);
     const [speed, setSpeed] = useState<number>(defaultSpeed);
     const [animations, setAnimations] = useState<any[]>([]);
     const [compare, setCompare] = useState<number[]>([]);
@@ -45,13 +42,13 @@ function SortingVisualizer({ type }: Props) {
     const [sorted, setSorted] = useState<number[]>([]);
     const [timeoutarray, setTimeoutarray] = useState<[]>([]);
     const [isRunning, setIsRunning] = useState<boolean>(false);
-    //    console.log('animations', animations);
-
-    // console.log('speed', speed);
-
-    console.log('sorted', sorted);
-
-
+    const [isComplete, setIsComplete] = useState<boolean>(false);
+    const [state, setState] = useState<State>(State.WATCH);
+    const [isSorted, setIsSorted] = useState<boolean>(false);
+    const [isInsert, setIsInsert] = useState<boolean>(false);
+    console.log('animations', animations);
+    console.log('unmodifiedArray', unmodifiedArray);
+    
 
     function generateArray(size: number, min: number = 3, max: number = 35) {
         const array: number[] = [];
@@ -70,18 +67,18 @@ function SortingVisualizer({ type }: Props) {
 
     function handleSizeChange(size: number) {
         setSize(size);
-        setArray(generateArray(size));
-        console.log(compare);
-
+        const newArray = generateArray(size);
+        setArray(newArray);
+        setUnmodifiedArray(newArray);
     }
-    console.log(speed);
+
 
     function animationIteration(animations: any[]) {
         const length = animations.length;
 
         for (let i = 0; i < length; i++) {
             let timeout = window.setTimeout(() => {
-                console.log(timeout);
+                console.log(timeout, 'timeout');
                 setSwap([])
 
                 const { state, index1, index2 } = animations[i];
@@ -99,8 +96,13 @@ function SortingVisualizer({ type }: Props) {
                     setCompare([]);
                 }
                 if (state === State.SORTED) {
-                    setSorted([...sorted, index1]);
+                    const sortedCopy = [...sorted];
+                    sortedCopy.push(index1);
+                    setSorted(sortedCopy);
                     setCompare([]);
+                }
+                if (state === State.COMPLETE) {
+                    setIsComplete(true);
                 }
                 // setCompare([]);
             }, i * (300 / speed));
@@ -113,11 +115,20 @@ function SortingVisualizer({ type }: Props) {
 
     function handleStart() {
         console.log('start');
+        setUnmodifiedArray([...array]);
         setTimeoutarray([]);
         setIsRunning(true);
-        setUnmodifiedArray(array);
-        animationIteration(animations);
+        // animationIteration(animations);
 
+    }
+
+    function handleReset() {
+        setIsRunning(false);
+        setArray(unmodifiedArray);
+        setCompare([]);
+        setSwap([]);
+        setSorted([]);
+        setTimeoutarray([]);
     }
 
     function handleStop() {
@@ -156,16 +167,20 @@ function SortingVisualizer({ type }: Props) {
                     [array[j], array[j + 1]] = [array[j + 1], array[j]];
                 }
             }
+
             animations.push({
                 state: State.SORTED,
                 index1: length - i - 1,
             });
         }
+        animations.push({
+            state: State.COMPLETE,
+        });
         // return animations;
         return setAnimations(animations);
     }
 
-    function insertionSort(numbers: number[]){
+    function insertionSort(numbers: number[]) {
         const animations = [];
         const sorted = [];
         const length = numbers.length;
@@ -194,8 +209,16 @@ function SortingVisualizer({ type }: Props) {
                 index1: j,
             });
         }
+        animations.push({
+            state: State.COMPLETE,
+        });
         return setAnimations(animations);
     }
+
+
+
+
+
 
     // on load sort my copy of array
     // run use effect when the size of my array changes because I need to resort the new array size
@@ -227,11 +250,11 @@ function SortingVisualizer({ type }: Props) {
                 {/* map */}
                 <div className="text-white py-2 px-2 text-sm absolute flex flex-col rounded-tl-md rounded-br-md  top-0 left-0 bg-emerald-400 shadow-lg">
                     <div className="flex items-center">
-                    <div className="grow">Comparing</div> <div className="ml-3 w-4 h-4 border-2 bg-amber-300 border-amber-400"></div>
+                        <div className="grow">Comparing</div> <div className="ml-3 w-4 h-4 border-2 bg-amber-300 border-amber-400"></div>
                     </div>
                     <div className="flex items-center">
-                    <div className="grow">Swapping</div> <div className="ml-3 w-4 h-4 border-2 bg-red-600 border-red-700"></div>
-                    </div>                 
+                        <div className="grow">Swapping</div> <div className="ml-3 w-4 h-4 border-2 bg-red-600 border-red-700"></div>
+                    </div>
                     <div className="flex items-center">
                         <div className="grow">Sorted</div> <div className="ml-3 w-4 h-4 border-2 bg-lime-600 border-lime-700"></div>
                     </div>
@@ -277,29 +300,29 @@ function SortingVisualizer({ type }: Props) {
                 {/* array of bar */}
                 <div className="flex items-end w-full justify-center">
                     {array.map((value, index) => (
-                        <>
-                            <div
-                                style={{ height: `${value * 10}px` }}
-                                key={index}
-                                className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center   mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
-                                    // not compare or swap or sorted
-                                    "bg-slate-700 border-gray-800": !compare.includes(index) && !swap.includes(index) && !sorted.includes(index),   
-                                    " bg-amber-300 border-amber-400 dark:bg-gray-500": index === compare[0] || index === compare[1],
-                                    "bg-red-600 border-red-700 dark:bg-gray-500": index === swap[0] || index === swap[1],
-                                    "bg-lime-600 border-lime-700 dark:bg-gray-500": sorted.includes(index),
-                                    // function that iterates the animations
-                                    // state taht 
-                                    // set currentIteration
 
-                                    // { state.compare, index1: 0 index2: 1} 
-                                    // css orange : array in index 1 && index 2 
-                                    //                           
-                                })}
+                        <div
+                            style={{ height: `${value * 10}px` }}
+                            key={index}
+                            className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center   mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
+                                // not compare or swap or sorted
+                                "bg-slate-700 border-gray-800": !compare.includes(index) && !swap.includes(index) && !sorted.includes(index),
+                                " bg-amber-300 border-amber-400 dark:bg-gray-500": index === compare[0] || index === compare[1],
+                                "bg-red-600 border-red-700 dark:bg-gray-500": index === swap[0] || index === swap[1],
+                                "bg-lime-600 border-lime-700 dark:bg-gray-500": sorted.includes(index),
+                                // function that iterates the animations
+                                // state taht 
+                                // set currentIteration
 
-                            >
-                                {value}
-                            </div>
-                        </>
+                                // { state.compare, index1: 0 index2: 1} 
+                                // css orange : array in index 1 && index 2 
+                                //                           
+                            })}
+
+                        >
+                            {value}
+                        </div>
+
                     ))}
 
 
@@ -316,6 +339,15 @@ function SortingVisualizer({ type }: Props) {
                     <button className="bg-red-500 hover:bg-red-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStop()}>
                         stop
                     </button>
+                )
+                // {isRunning | }
+                
+                }
+
+                {isComplete && (
+                    <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleReset()}>
+                        reset
+                    </button>
                 )}
 
             </div>
@@ -325,23 +357,3 @@ function SortingVisualizer({ type }: Props) {
 }
 
 export default SortingVisualizer
-
-// function bubbleSort(array: number[]){
-//     const animations = [];
-//     const length = array.length;
-//     for(let i = 0; i < length; i++) {
-//         for(let j = 0; j < length -i - 1; j++) {
-//             animations.push({
-//                 type: State.COMPARE,
-//                 index1: j,
-//                 index2: j + 1
-//             });
-//             if(array[j] > array[j + 1]) {
-//                 animations.push({
-//                     type: State.SWAP,
-//                     index1: j,
-//                     index2: j + 1
-//                 });
-//                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
-//             }
-//         }
