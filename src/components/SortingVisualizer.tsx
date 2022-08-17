@@ -165,13 +165,54 @@ function SortingVisualizer({ type }: Props) {
         return setAnimations(animations);
     }
 
-
-    console.log(animations);
+    function insertionSort(numbers: number[]){
+        const animations = [];
+        const sorted = [];
+        const length = numbers.length;
+        for (let i = 1; i < length; i++) {
+            let j = i;
+            while (j > 0 && numbers[j - 1] > numbers[j]) {
+                animations.push({
+                    state: State.COMPARE,
+                    index1: j - 1,
+                    value1: numbers[j - 1],
+                    index2: j,
+                    value2: numbers[j]
+                });
+                animations.push({
+                    state: State.SWAP,
+                    index1: j - 1,
+                    value1: numbers[j - 1],
+                    index2: j,
+                    value2: numbers[j]
+                });
+                [numbers[j - 1], numbers[j]] = [numbers[j], numbers[j - 1]];
+                j--;
+            }
+            animations.push({
+                state: State.SORTED,
+                index1: j,
+            });
+        }
+        return setAnimations(animations);
+    }
 
     // on load sort my copy of array
     // run use effect when the size of my array changes because I need to resort the new array size
     useEffect(() => {
-        bubbleSort([...array]);
+        if (type === SortingAlgorithms.BubbleSort) {
+            bubbleSort([...array])
+        }
+        if (type === SortingAlgorithms.InsertionSort) {
+            insertionSort([...array])
+        }
+        if (type === SortingAlgorithms.MergeSort) {
+            mergeSort([...array])
+        }
+        if (type === SortingAlgorithms.QuickSort) {
+            quickSort([...array])
+        }
+
 
 
     }, [size]);
