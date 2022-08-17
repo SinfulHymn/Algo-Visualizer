@@ -149,7 +149,7 @@ function SortingVisualizer({ type }: Props) {
         });
         // return animations;
         return setAnimations(animations);
-    }
+    } 
 
     function insertionSort(numbers: number[]) {
         const animations = [];
