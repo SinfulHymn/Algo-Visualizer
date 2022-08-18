@@ -20,7 +20,7 @@ export enum State {
 }
 
 const buttons = [5, 10, 15, 20, 25];
-const defaultButton = buttons[0];
+const defaultButton = buttons[2];
 
 const speedButtons = [0.5, 1, 2]
 const defaultSpeed = speedButtons[2];
@@ -53,11 +53,13 @@ function SortingVisualizer({ type }: Props) {
     // state that references what position in the array is being compared
     const [position, setPosition] = useState<number>(0);
     const [isPaused, setIsPaused] = useState<boolean>(false);
+    const [isWatching, setIsWatching] = useState<boolean>(false);
 
 
     console.log('animations', animations);
-    console.log('unmodifiedArray', unmodifiedArray);
+    // console.log('unmodifiedArray', unmodifiedArray);
     console.log('timeouts', timeouts);
+    console.log('isWatching', isWatching);
 
 
     function generateArray(size: number, min: number = 3, max: number = 35) {
@@ -76,6 +78,7 @@ function SortingVisualizer({ type }: Props) {
     }
 
     function handleSizeChange(buttonsize: number) {
+        StopTimeout()
         if (buttonsize === size) {
             setSameSize(!sameSize);
         }
@@ -83,6 +86,7 @@ function SortingVisualizer({ type }: Props) {
         setIsComplete(false);
         setIsSorted(false);
         setIsRunning(false);
+        setIsPaused(false);
         setSorted([]);
         setCompare([]);
         setSwap([]);
@@ -93,10 +97,13 @@ function SortingVisualizer({ type }: Props) {
     }
 
     function handleStart() {
+        StopTimeout();
         console.log('start');
         // setUnmodifiedArray([...array]);
         setTimeoutarray([]);
         setIsRunning(true);
+        setIsWatching(true);
+
         animationIteration(animations);
     }
 
@@ -104,32 +111,93 @@ function SortingVisualizer({ type }: Props) {
 
     function handleReset() {
         StopTimeout();
-        setIsRunning(false);
-        setIsComplete(false);
         setArray([...unmodifiedArray]);
-        // setUnmodifiedArray([...array]);
         setCompare([]);
         setSwap([]);
         setSorted([]);
-        setTimeoutarray([]);
+        setIsRunning(false);
+        setIsComplete(false);
         setPosition(0);
+        setIsPaused(false);
+        setIsWatching(false);
+        setTimeoutarray([]);
     }
 
     function handleStop() {
         console.log('stop');
-        setIsRunning(false);
-        setIsPaused(true)
+        console.log('position', position);
         StopTimeout();
+        setIsPaused(true)
+        setIsRunning(false);
     }
 
     function handleResume() {
-        console.log('resume');
         StopTimeout();
+        console.log('resume');
         setIsRunning(true);
         setIsPaused(false);
-
         animationIteration(animations);
     }
+
+    function swapper(array: number[], i: number, j: number) {
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    function partition(array: number[], left: number, right: number, animations: any[]) {
+        const pivot = array[right];
+        animations.push({
+            type: "WATCH",
+            pivot: [pivot],
+        });
+
+        let i = left - 1;
+        for (let j = left; j < right; j++) {
+            animations.push({
+                type: "COMPARE",
+                payload: [array[j], pivot],
+            });
+            if (array[j] <= pivot) {
+                i++;
+            }
+            if (i < j) {
+                swapper(array, i, j);
+                animations.push({
+                    type: "SWAP",
+                    payload: [array[i], array[j]],
+                });
+            }
+    }
+        swapper(array, i + 1, right);
+        animations.push({
+            type: "SWAP",
+            payload: [array[i + 1], array[right]],
+        });
+        return i + 1;
+}
+
+    function quickSort(array: number[], left: number, right: number, animations: any[]) {
+        if (left == right) {
+            animations.push({
+                type: "SORTED",
+                payload: [array[left]],
+            });
+            return;
+        }
+        if (left < right) {
+            const mid = partition(array, left, right, animations);
+            animations.push({
+                type: "SORTED",
+                payload: [array[mid]],
+            });
+            quickSort(array, left, mid - 1, animations);
+            quickSort(array, mid + 1, right, animations);
+        }
+        setAnimations([...animations]);
+    }
+
+
 
     //function to iterate through the animations array
     //check what the type is if compare add array of the indexes in the state ex. [3,4]
@@ -172,12 +240,16 @@ function SortingVisualizer({ type }: Props) {
         });
         // return animations;
         return setAnimations(animations);
-    } 
+    }
 
     function insertionSort(numbers: number[]) {
         const animations = [];
-        const sorted = [];
         const length = numbers.length;
+        animations.push({
+            state: State.SORTED,
+            index1: 0,
+        });
+        
         for (let i = 1; i < length; i++) {
             let j = i;
             while (j > 0 && numbers[j - 1] > numbers[j]) {
@@ -220,7 +292,7 @@ function SortingVisualizer({ type }: Props) {
     function animationIteration(animations: any[]) {
         const length = animations.length;
         const timeouts = [];
-        const sorted: number[] = []
+        const sorting: number[] = []
         let j: number;
         position === 0 ? j = 0 : j = position;
         console.log('j', j);
@@ -229,7 +301,8 @@ function SortingVisualizer({ type }: Props) {
             timeouts.push(setTimeout(() => {
                 setPosition(i);
                 setSwap([])
-                const { state, index1, index2 } = animations[i];
+                setCompare([])
+                const { state, index1, index2, pivot, payload } = animations[i];
                 console.log(state, index1, index2);
                 if (state === State.COMPARE) {
                     setCompare([index1, index2]);
@@ -244,18 +317,22 @@ function SortingVisualizer({ type }: Props) {
                     setCompare([]);
                 }
                 if (state === State.SORTED) {
-                    sorted.push(index1);
+                    sorting.push(index1);
                     // setSorted(sortedCopy);
                     setCompare([]);
                 }
                 if (state === State.COMPLETE) {
+                    setIsWatching(false);
                     setIsComplete(true);
                 }
                 // setCompare([]);
-            }, i * (300 / speed)));
+            }, i * (250 / speed)));
         }
-        setSorted(sorted);
-        setTimeouts(timeouts);
+        if (!isWatching) {
+            setSorted(sorting);
+            setTimeouts(timeouts);
+        }
+
     }
     // on load sort my copy of array
     // run use effect when the size of my array changes because I need to resort the new array size
@@ -270,7 +347,8 @@ function SortingVisualizer({ type }: Props) {
             mergeSort([...array])
         }
         if (type === SortingAlgorithms.QuickSort) {
-            quickSort([...array])
+            const animations: number[] = []
+            quickSort([...array], 0, array.length - 1, animations)
         }
 
 
@@ -342,7 +420,7 @@ function SortingVisualizer({ type }: Props) {
                             className={classNames("pb-1 w-4 sm:w-6  border-2 border-b-0 font-semibold text-center   mx-0.5 transition-colors rounded-t-md text-white flex justify-center items-end text-xs ", {
                                 // not compare or swap or sorted
                                 "bg-slate-700 border-gray-800": !compare.includes(index) && !swap.includes(index) && !sorted.includes(index),
-                                " bg-amber-300 border-amber-400 dark:bg-gray-500": index === compare[0] || index === compare[1],
+                                " bg-amber-300 border-amber-400 dark:bg-gray-500": index === compare[0] || index === compare[1] || compare.includes(value),
                                 "bg-red-600 border-red-700 dark:bg-gray-500": index === swap[0] || index === swap[1],
                                 "bg-lime-600 border-lime-700 dark:bg-gray-500": sorted.includes(index),
                                 // function that iterates the animations
@@ -380,12 +458,12 @@ function SortingVisualizer({ type }: Props) {
                     <button className="bg-emerald-500 hover:bg-emerald-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStart()}>
                         start
                     </button>
-                ): null}
+                ) : null}
                 {isRunning && !isComplete ? (
                     <button className="bg-red-500 hover:bg-red-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleStop()}>
                         stop
                     </button>
-                ):null}
+                ) : null}
 
 
 
@@ -395,11 +473,11 @@ function SortingVisualizer({ type }: Props) {
                     </button>
                 )}
 
-                {isComplete || isRunning? (
+                {isComplete || isRunning ? (
                     <button className="bg-slate-500 hover:bg-slate-700 text-white  font-normal rounded-md px-6 py-1 mx-1" onClick={() => handleReset()}>
                         reset
                     </button>
-                ):null}
+                ) : null}
 
             </div>
         </div>
