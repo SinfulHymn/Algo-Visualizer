@@ -4,6 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { SortingAlgorithms, SetSortingAlgorithms } from "context/SortingEnum";
 import { useEffect, useState } from "react";
 
+
+
 type Props = {
     category: string;
 };
@@ -30,7 +32,7 @@ const Sorting = () => {
     <Container>
         <Heading title={`${category}`}backLink="/" />
         <div className=" grid grid-cols-4 gap-4 p-4 my-4">
-        {Object.values(SortingAlgorithms).map(algorithm => {
+        {Object.values(SortingAlgorithms).slice(0,2).map(algorithm => {
             const { name } = SetSortingAlgorithms[algorithm];
             return (
                 <Link to={`/Sorting/${algorithm}`} className="inline-block" key={algorithm}>
