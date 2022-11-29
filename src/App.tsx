@@ -5,7 +5,7 @@ import ContentRouter from 'components/ContentRouter'
 
 function App() {
   return (
-    <div className='flex flex-col h-screen '>
+    <div className='flex flex-col min-h-screen '>
       <Header />
       <ContentRouter />
       <Footer />

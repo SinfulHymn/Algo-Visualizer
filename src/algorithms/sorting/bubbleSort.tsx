@@ -1,4 +1,4 @@
-import Tracer, { TraceState } from "services/Tracer";
+import Tracer, { TraceState } from '../../Services';
 
 const bubbleSort = (numbers: number[]): Tracer => {
   const tracer = new Tracer();
