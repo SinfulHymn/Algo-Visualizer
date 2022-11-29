@@ -4,11 +4,11 @@
   <img src="https://i.imgur.com/Yt7Qsxz.png" alt="Logo" width="150" height="150">
   </a>
 
-## [Algorithm Visualizer](https://algorithm-visuals.netlify.app/)
+## [Algorithm Visualizer](https://algorithm-visual.vercel.app/)
 
   <p align="center">
     <p>An algorithm visualizer created with React, Typescript, and GraphQL.</p>
-    <a href="https://algorithm-visuals.netlify.app/"><strong>Live Website - AlgoVisualizer</strong></a>
+    <a href="https://algorithm-visual.vercel.app/"><strong>Live Website - AlgoVisualizer</strong></a>
     <br />
  React Web Application built on <br/>
     <a href="https://reactjs.org/">React</a>
