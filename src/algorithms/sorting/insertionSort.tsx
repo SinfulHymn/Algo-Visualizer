@@ -1,26 +1,47 @@
-function insertionSort (items: number[]) {
-    for(let i = 0; i<items.length;i++){
-      console.log('beginning of for',items);
-      let item = items.splice(i,1)[0]
-      console.log('item',item)
-      let z = i
-      console.log('initial z',z)
-      console.log('after splice',items)
-      while(z>0 && item< items[z-1]){
-        console.log(` ${item} < ${items[z-1]}`)
-        z--
-        console.log('z is now', z)
+import Tracer, { TraceState } from "services/Tracer";
+
+const insertionSort = (numbers: number[]): Tracer => {
+  const tracer = new Tracer();
+  const length = numbers.length;
+
+  tracer.add({
+    type: TraceState.SORTED,
+    payload: [numbers[0]],
+  });
+
+  for (let i = 1; i < length; i++) {
+    const num = numbers[i];
+    let j = i - 1;
+
+    while (j >= 0) {
+      tracer.add({
+        type: TraceState.COMPARE,
+        payload: [num, numbers[j]],
+      });
+
+      if (num > numbers[j]) {
+        break;
       }
-      console.log('add at index',z)
-      items.splice(z,0,item)
-      console.log('after insert',items)
-      console.log('~~~~~~')
-  
+
+      [numbers[j], numbers[j + 1]] = [numbers[j + 1], numbers[j]];
+
+      tracer.add({
+        type: TraceState.SWAP,
+        payload: [numbers[j + 1], numbers[j]],
+      });
+
+      j -= 1;
     }
-      
-    return items;
+
+    numbers[j + 1] = num;
+
+    tracer.add({
+      type: TraceState.SORTED,
+      payload: [numbers[j + 1]],
+    });
   }
 
+  return tracer;
+};
 
-    export default insertionSort;
-    
+export default insertionSort;
